@@ -816,8 +816,10 @@ textarea:focus {
 
 .compare-controls {
   display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 0.7rem;
+  align-items: end;
+  padding-inline: 0.5rem;
 }
 
 .result-grid {
@@ -825,6 +827,18 @@ textarea:focus {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.7rem;
+  padding-inline: 0.5rem;
+}
+
+.result {
+  padding: 0.8rem 0.92rem;
+  transition: border-color 0.24s ease, background 0.24s ease, box-shadow 0.24s ease;
+}
+
+.result-best {
+  border-color: rgba(245, 197, 24, 0.5);
+  background: linear-gradient(150deg, rgba(245, 197, 24, 0.14), rgba(255, 255, 255, 0.03));
+  box-shadow: 0 10px 24px rgba(245, 197, 24, 0.08);
 }
 
 .result strong {
@@ -838,6 +852,64 @@ textarea:focus {
   margin-top: 0.95rem;
   display: grid;
   gap: 0.75rem;
+  padding-inline: 0.5rem;
+}
+
+.compare-box {
+  padding: 1rem 1.15rem 1.1rem 1.35rem;
+  overflow: hidden;
+}
+
+.compare-presets {
+  margin-top: 0.78rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-inline: 0.5rem;
+}
+
+.preset-btn {
+  border: 1px solid rgba(245, 197, 24, 0.35);
+  background: rgba(245, 197, 24, 0.08);
+  color: #f1dfa4;
+  border-radius: 999px;
+  padding: 0.35rem 0.72rem;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.preset-btn.active {
+  background: linear-gradient(120deg, var(--gold), #ffe07a);
+  color: #1a1a24;
+  border-color: transparent;
+}
+
+.compare-note {
+  margin: 0.8rem 0.5rem 0;
+  color: #d3d6e6;
+  font-size: 0.86rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.13);
+  padding-top: 0.6rem;
+}
+
+.compare-callout {
+  margin: 0.78rem 0.5rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.035);
+  color: #e3e4ee;
+  padding: 0.72rem 0.86rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.compare-callout.is-best {
+  border-color: rgba(245, 197, 24, 0.48);
+  background: linear-gradient(120deg, rgba(245, 197, 24, 0.16), rgba(255, 255, 255, 0.035));
+  color: #ffe7a2;
 }
 
 .bar-item {
@@ -871,8 +943,13 @@ textarea:focus {
   width: 0;
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--gold), #ffe7a8);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.55), #d9d9e4);
   transition: width 0.65s ease;
+}
+
+.bar-fill.is-best {
+  background: linear-gradient(90deg, var(--gold), #ffe7a8);
+  box-shadow: 0 0 18px rgba(245, 197, 24, 0.34);
 }
 
 .panel-detail {
@@ -890,7 +967,8 @@ textarea:focus {
   border: 1px solid var(--line-soft);
   border-radius: 14px;
   overflow: hidden;
-  min-height: 280px;
+  aspect-ratio: 16 / 9;
+  min-height: 300px;
   background: rgba(0, 0, 0, 0.2);
 }
 
@@ -903,14 +981,15 @@ textarea:focus {
 
 .hotspot {
   position: absolute;
-  width: 20px;
-  height: 20px;
+  z-index: 2;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.95);
-  background: rgba(245, 197, 24, 0.92);
+  background: linear-gradient(135deg, #f5c518, #ffdf82);
   cursor: pointer;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 0 0 rgba(245, 197, 24, 0.6);
+  box-shadow: 0 0 0 0 rgba(245, 197, 24, 0.66);
   animation: hotspotPulse 2s infinite;
 }
 
@@ -968,6 +1047,74 @@ textarea:focus {
 
 .process-step h3 {
   font-size: 1rem;
+}
+
+.section-home-sim .section-head p {
+  max-width: 760px;
+}
+
+.home-sim {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1rem;
+}
+
+.home-sim-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.sim-btn {
+  border: 1px solid rgba(245, 197, 24, 0.34);
+  border-radius: 999px;
+  background: rgba(245, 197, 24, 0.07);
+  color: #f0e2b6;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.sim-btn.active {
+  background: linear-gradient(120deg, var(--gold), #ffe07a);
+  border-color: transparent;
+  color: #1a1a24;
+}
+
+.home-sim-grid {
+  margin-top: 0.86rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.sim-card {
+  border: 1px solid var(--line-soft);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.75rem 0.9rem;
+}
+
+.sim-card small {
+  color: #d5d7e4;
+}
+
+.sim-card strong {
+  display: block;
+  margin-top: 0.24rem;
+  color: #ffecb3;
+  font-family: var(--font-display);
+  font-size: 1.36rem;
+}
+
+.home-sim-note {
+  margin: 0.78rem 0 0;
+  color: #cfd3e0;
+  font-size: 0.9rem;
 }
 
 .page-generic .hero-route {
@@ -1284,6 +1431,12 @@ textarea:focus {
     border-color: rgba(245, 197, 24, 0.45);
   }
 
+  .preset-btn:hover,
+  .sim-btn:hover {
+    transform: translateY(-1px);
+    border-color: rgba(245, 197, 24, 0.56);
+  }
+
   .ac-item:hover {
     transform: scale(1.01);
     border-color: rgba(245, 197, 24, 0.36);
@@ -1320,6 +1473,7 @@ textarea:focus {
   .grid-3,
   .contact-grid,
   .result-grid,
+  .home-sim-grid,
   .footer-grid {
     grid-template-columns: 1fr;
   }

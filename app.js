@@ -49,7 +49,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "¿Cómo se cotiza el m2?",
-    a: "La cotización se define por espesor, metrados, tipología de obra y logística. La inversión total suele mejorar al considerar tiempos, mantenimiento y energía a largo plazo.",
+    a: "La cotización se define por espesor, metrados, tipología de obra y logística. La inversión total suele mejorar al considerar tiempos y mantenimiento a largo plazo.",
   },
   {
     q: "¿Hay distribución nacional?",
@@ -84,7 +84,7 @@ const ROUTES = {
       {
         label: "Aislación térmica",
         value: "PU >=40",
-        desc: "Núcleo de poliuretano de alta densidad para reducir consumo energético operativo.",
+        desc: "Núcleo de poliuretano de alta densidad para lograr mejor estabilidad térmica interior.",
       },
     ],
     applications: [
@@ -148,7 +148,7 @@ const ROUTES = {
     ],
     about: [
       "Distribución nacional y soporte técnico para etapa comercial, diseño y montaje.",
-      "Enfoque de costo total de propiedad: menor tiempo, menor mantenimiento, menor impacto energético.",
+      "Enfoque de costo total de propiedad: menor tiempo, menor mantenimiento y menor intervención correctiva.",
       "Sistema orientado a galpones, logística, industria y vivienda modular/steel frame.",
     ],
   },
@@ -181,9 +181,10 @@ const ROUTES = {
       "Resuelve techo + aislación + terminación en una misma unidad constructiva.",
     ],
     faq: [
-      ["¿Es más económico a largo plazo?", "Generalmente sí, por menor tiempo de montaje, menor mantenimiento y menor consumo energético."],
-      ["¿Es más delicado que otras opciones?", "No. H26 combina dureza y flexibilidad estructural con buena estabilidad superficial."],
-      ["¿La terminación mantiene color?", "Sí. Los procesos industriales de pintado mejoran durabilidad ante radiación UV."],
+      ["¿Es más económico a largo plazo?", "Sí. A largo plazo es más rentable porque reduce tiempos de montaje y baja el costo de mantenimiento en el tiempo."],
+      ["¿Es más delicado que otras opciones?", "No. Aluminio H26 combina dureza, flexibilidad estructural y buena estabilidad superficial."],
+      ["¿La terminación mantiene el color?", "Sí. Los procesos industriales de pintado mejoran la durabilidad del color frente a lluvia, radiación UV y exposición exterior continua."],
+      ["¿Requiere mantenimiento frecuente?", "No. El mantenimiento habitual es mínimo: limpieza periódica e inspección visual preventiva."],
     ],
   },
   faq: {
@@ -286,6 +287,7 @@ function render() {
   bindSlider();
   bindLightbox();
   bindPanelHotspots();
+  bindHomeSimulator();
   bindReveals();
   bindCounters();
 }
@@ -460,6 +462,8 @@ function renderHome() {
           <article class="card"><h3>Comportamiento al fuego</h3><strong>B1</strong></article>
         </div>
       </section>
+
+      ${renderHomeInteractionSection()}
 
       ${renderContactBlock()}
     </article>
@@ -674,14 +678,14 @@ function renderPanelDetailSection() {
     <section class="section section-detail reveal">
       <div class="section-head">
         <h2>Detalle Técnico Interactivo</h2>
-        <p>Pasa el cursor por cada capa para ver su función en el sistema constructivo.</p>
+        <p>Pasá el cursor por cada capa para ver su función en el sistema constructivo.</p>
       </div>
       <div class="panel-detail">
         <div class="panel-detail-visual" aria-label="Detalle técnico del panel de aluminio">
           <img src="https://alpanel.com.ar/img_panel.png" alt="Detalle técnico del panel Alpanel" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-          <button class="hotspot active" data-layer="externa" style="top:16%;left:14%;" type="button" aria-label="Aluminio exterior"></button>
-          <button class="hotspot" data-layer="nucleo" style="top:50%;left:48%;" type="button" aria-label="Núcleo PU"></button>
-          <button class="hotspot" data-layer="interna" style="top:82%;left:70%;" type="button" aria-label="Aluminio interior"></button>
+          <button class="hotspot active" data-layer="externa" data-title="Aluminio exterior H26" data-copy="Primera barrera frente a clima, corrosión y radiación UV." data-impact="Impacto: máxima durabilidad en exposición exterior." style="top:16%;left:14%;" type="button" aria-label="Aluminio exterior"></button>
+          <button class="hotspot" data-layer="nucleo" data-title="Núcleo PU alta densidad" data-copy="Aislación térmica continua para estabilizar temperatura interior." data-impact="Impacto: menor mantenimiento por condensación y mejor confort." style="top:50%;left:48%;" type="button" aria-label="Núcleo PU"></button>
+          <button class="hotspot" data-layer="interna" data-title="Aluminio interior" data-copy="Terminación limpia, durable y lista para uso industrial o residencial." data-impact="Impacto: cierre interior sólido y de fácil limpieza." style="top:82%;left:70%;" type="button" aria-label="Aluminio interior"></button>
         </div>
         <div class="panel-layer-copy">
           <article class="layer-card active" data-layer-card="externa">
@@ -690,7 +694,7 @@ function renderPanelDetailSection() {
           </article>
           <article class="layer-card" data-layer-card="nucleo">
             <h3>Núcleo PU alta densidad</h3>
-            <p>Aislación térmica continua para reducir consumo energético operativo.</p>
+            <p>Aislación térmica continua para estabilizar temperatura interior en uso real.</p>
           </article>
           <article class="layer-card" data-layer-card="interna">
             <h3>Aluminio interior</h3>
@@ -714,6 +718,39 @@ function renderProcessSection() {
         <article class="process-step"><span>02</span><h3>Definimos espesor</h3></article>
         <article class="process-step"><span>03</span><h3>Se fabrica</h3></article>
         <article class="process-step"><span>04</span><h3>Se instala</h3></article>
+      </div>
+    </section>
+  `;
+}
+
+function renderHomeInteractionSection() {
+  return `
+    <section class="section section-home-sim reveal">
+      <div class="section-head">
+        <h2>Simulador de Escenario de Obra</h2>
+        <p>Explorá en segundos cómo cambia el resultado global según el sistema de cierre.</p>
+      </div>
+      <div class="home-sim" id="homeSim">
+        <div class="home-sim-controls" role="tablist" aria-label="Escenarios de obra">
+          <button class="sim-btn active" type="button" data-sim-mode="tradicional">Sistema tradicional</button>
+          <button class="sim-btn" type="button" data-sim-mode="acero">Panel de acero</button>
+          <button class="sim-btn" type="button" data-sim-mode="alpanel">Alpanel</button>
+        </div>
+        <div class="home-sim-grid">
+          <article class="sim-card">
+            <small>Tiempo de cierre</small>
+            <strong id="simTime">100%</strong>
+          </article>
+          <article class="sim-card">
+            <small>Mantenimiento relativo</small>
+            <strong id="simMaint">100%</strong>
+          </article>
+          <article class="sim-card">
+            <small>Costo total a 10 años</small>
+            <strong id="simTco">100%</strong>
+          </article>
+        </div>
+        <p class="home-sim-note" id="simNote">Referencia base para obra convencional de cierre.</p>
       </div>
     </section>
   `;
@@ -774,19 +811,22 @@ function renderComparisonSection() {
             <input id="areaInput" type="number" min="50" step="10" value="500" />
           </label>
           <label>
-            Sistema base a comparar
-            <select id="systemSelect">
-              <option value="galvanizada">Chapa galvanizada + aislación</option>
-              <option value="acero">Panel sándwich de acero</option>
-              <option value="alpanel">Alpanel (referencia)</option>
-            </select>
+            Ajuste rápido de superficie
+            <input id="areaRange" type="range" min="50" max="5000" step="50" value="500" />
           </label>
-          <button class="btn btn-primary" type="button" id="calcBtn">Calcular</button>
+        </div>
+        <div class="compare-presets" id="comparePresets">
+          <button type="button" class="preset-btn active" data-system="galvanizada">Base tradicional</button>
+          <button type="button" class="preset-btn" data-system="acero">Escenario acero</button>
+          <button type="button" class="preset-btn" data-system="alpanel">Escenario Alpanel</button>
+        </div>
+        <div class="compare-callout" id="compareCallout">
+          Base tradicional: referencia de comparación para tiempos, costo y mantenimiento.
         </div>
         <div class="result-grid" id="calcResult">
           <div class="result"><small>Tiempo de montaje</small><strong>--</strong></div>
           <div class="result"><small>Costo relativo envolvente</small><strong>--</strong></div>
-          <div class="result"><small>Mantenimiento a 10 años</small><strong>--</strong></div>
+          <div class="result"><small>Mantenimiento a 20 años</small><strong>--</strong></div>
         </div>
         <div class="compare-bars" id="compareBars">
           <div class="bar-item">
@@ -802,6 +842,7 @@ function renderComparisonSection() {
             <div class="bar-track"><div class="bar-fill" id="barCost"></div></div>
           </div>
         </div>
+        <p class="compare-note" id="compareNote">Base de comparación: sistema tradicional (100%).</p>
       </div>
     </section>
   `;
@@ -875,8 +916,9 @@ function bindTabs() {
 
 function bindCalculator() {
   const areaInput = document.getElementById("areaInput");
-  const systemSelect = document.getElementById("systemSelect");
-  const calcBtn = document.getElementById("calcBtn");
+  const areaRange = document.getElementById("areaRange");
+  const presets = Array.from(document.querySelectorAll(".preset-btn"));
+  const compareNote = document.getElementById("compareNote");
   const result = document.getElementById("calcResult");
   const barTime = document.getElementById("barTime");
   const barMaint = document.getElementById("barMaint");
@@ -884,42 +926,97 @@ function bindCalculator() {
   const barTimeValue = document.getElementById("barTimeValue");
   const barMaintValue = document.getElementById("barMaintValue");
   const barCostValue = document.getElementById("barCostValue");
-  if (!areaInput || !systemSelect || !calcBtn || !result) return;
+  if (!areaInput || !result) return;
 
   const systems = {
-    galvanizada: { speed: 1.0, cost: 1.0, maintenance: 1.0 },
-    acero: { speed: 0.78, cost: 0.92, maintenance: 0.75 },
-    alpanel: { speed: 0.6, cost: 0.85, maintenance: 0.45 },
+    galvanizada: {
+      speed: 1.0,
+      cost: 1.0,
+      maintenance: 1.0,
+      label: "Base tradicional",
+      callout: "Base tradicional: referencia de comparación para tiempos, costo y mantenimiento.",
+    },
+    acero: {
+      speed: 0.84,
+      cost: 0.92,
+      maintenance: 0.75,
+      label: "Panel de acero",
+      callout: "Panel de acero: mejora parcial, pero mantiene mantenimiento proyectado.",
+    },
+    alpanel: {
+      speed: 0.6,
+      cost: 0.85,
+      maintenance: 0.0,
+      label: "Alpanel",
+      callout: "Alpanel reduce hasta 40% el tiempo frente a sistemas tradicionales y proyecta 0 u.r. de mantenimiento.",
+    },
   };
+  let selectedSystem = presets.find((btn) => btn.classList.contains("active"))?.dataset.system || "galvanizada";
 
   const runCalc = () => {
     const area = Math.max(50, Number(areaInput.value || 0));
-    const base = systems[systemSelect.value] || systems.galvanizada;
+    if (areaRange) areaRange.value = String(area);
+    const base = systems[selectedSystem] || systems.galvanizada;
 
     const days = Math.round((area / 110) * base.speed);
     const costRel = (base.cost * area).toFixed(0);
-    const m10 = (base.maintenance * area * 0.16).toFixed(0);
+    const m20 = (base.maintenance * area * 0.32).toFixed(0);
     const timeRel = Math.round(base.speed * 100);
     const maintRel = Math.round(base.maintenance * 100);
     const costRelPercent = Math.round(base.cost * 100);
+    const isAlpanel = selectedSystem === "alpanel";
 
     result.innerHTML = `
-      <div class="result"><small>Tiempo de montaje estimado</small><strong>${days} días</strong></div>
-      <div class="result"><small>Costo relativo envolvente</small><strong>${costRel} u.r.</strong></div>
-      <div class="result"><small>Mantenimiento proyectado (10 años)</small><strong>${m10} u.r.</strong></div>
+      <div class="result ${isAlpanel ? "result-best" : ""}"><small>Tiempo de montaje estimado</small><strong>${days} días</strong></div>
+      <div class="result ${isAlpanel ? "result-best" : ""}"><small>Costo relativo envolvente</small><strong>${costRel} u.r.</strong></div>
+      <div class="result ${isAlpanel ? "result-best" : ""}"><small>Mantenimiento proyectado (20 años)</small><strong>${m20} u.r.</strong></div>
     `;
+
+    if (compareNote) {
+      const labels = {
+        galvanizada: "Base de comparación: sistema tradicional (100%).",
+        acero: "Base de comparación: panel de acero (reducción intermedia).",
+        alpanel: "Base de comparación: Alpanel (menor tiempo y cero mantenimiento).",
+      };
+      compareNote.textContent = labels[selectedSystem] || labels.galvanizada;
+    }
+
+    const compareCallout = document.getElementById("compareCallout");
+    if (compareCallout) {
+      compareCallout.textContent = base.callout;
+      compareCallout.classList.toggle("is-best", isAlpanel);
+    }
 
     if (barTime && barMaint && barCost && barTimeValue && barMaintValue && barCostValue) {
       barTime.style.width = `${timeRel}%`;
       barMaint.style.width = `${maintRel}%`;
       barCost.style.width = `${costRelPercent}%`;
+      [barTime, barMaint, barCost].forEach((bar) => bar.classList.toggle("is-best", isAlpanel));
       barTimeValue.textContent = `${timeRel}%`;
       barMaintValue.textContent = `${maintRel}%`;
       barCostValue.textContent = `${costRelPercent}%`;
     }
   };
 
-  calcBtn.addEventListener("click", runCalc);
+  areaInput.addEventListener("input", () => {
+    if (areaRange) areaRange.value = areaInput.value;
+    runCalc();
+  });
+  if (areaRange) {
+    areaRange.addEventListener("input", () => {
+      areaInput.value = areaRange.value;
+      runCalc();
+    });
+  }
+  presets.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.system;
+      if (!target || !systems[target]) return;
+      selectedSystem = target;
+      presets.forEach((item) => item.classList.toggle("active", item === btn));
+      runCalc();
+    });
+  });
   runCalc();
 }
 
@@ -1047,7 +1144,9 @@ function bindPanelHotspots() {
   if (spots.length === 0 || cards.length === 0) return;
 
   const activateLayer = (layer) => {
-    spots.forEach((spot) => spot.classList.toggle("active", spot.dataset.layer === layer));
+    spots.forEach((spot) => {
+      spot.classList.toggle("active", spot.dataset.layer === layer);
+    });
     cards.forEach((card) => card.classList.toggle("active", card.dataset.layerCard === layer));
   };
 
@@ -1056,7 +1155,45 @@ function bindPanelHotspots() {
     if (!layer) return;
     spot.addEventListener("mouseenter", () => activateLayer(layer));
     spot.addEventListener("focus", () => activateLayer(layer));
+    spot.addEventListener("click", () => activateLayer(layer));
   });
+
+  const initialLayer = spots.find((spot) => spot.classList.contains("active"))?.dataset.layer || spots[0]?.dataset.layer;
+  if (initialLayer) {
+    activateLayer(initialLayer);
+  }
+}
+
+function bindHomeSimulator() {
+  const root = document.getElementById("homeSim");
+  if (!root) return;
+  const buttons = Array.from(root.querySelectorAll(".sim-btn"));
+  const time = document.getElementById("simTime");
+  const maint = document.getElementById("simMaint");
+  const tco = document.getElementById("simTco");
+  const note = document.getElementById("simNote");
+  if (!time || !maint || !tco || !note || buttons.length === 0) return;
+
+  const scenarios = {
+    tradicional: { time: "100%", maint: "100%", tco: "100%", note: "Referencia base para obra convencional de cierre." },
+    acero: { time: "78%", maint: "75%", tco: "92%", note: "Escenario acero: mejora parcial de tiempos y mantenimiento." },
+    alpanel: { time: "60%", maint: "45%", tco: "85%", note: "Escenario Alpanel: menor tiempo de obra y menor costo acumulado de mantenimiento." },
+  };
+
+  const applyScenario = (mode) => {
+    const data = scenarios[mode] || scenarios.tradicional;
+    buttons.forEach((btn) => btn.classList.toggle("active", btn.dataset.simMode === mode));
+    time.textContent = data.time;
+    maint.textContent = data.maint;
+    tco.textContent = data.tco;
+    note.textContent = data.note;
+  };
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => applyScenario(btn.dataset.simMode));
+  });
+
+  applyScenario("tradicional");
 }
 
 function bindReveals() {
